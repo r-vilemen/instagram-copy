@@ -46,48 +46,27 @@ class Post {
       updatedAt: this._updatedAt,
     };
   }
-}
 
-const posts: Post[] = [];
-
-// Gerando 15 posts fictícios
-for (let index = 0; index < 15; index++) {
-  const post = new Post(
-    faker.person.firstName(),
-    faker.image.avatarGitHub(),
-    faker.image.urlPicsumPhotos(),
-    faker.lorem.paragraph()
-  );
-  posts.push(post);
-}
-
-// Renderizando os posts no DOM
-const postsContainer = document.getElementById("posts-container");
-
-if (postsContainer) {
-  posts.forEach((post) => {
-    const { userName, avatarUrl, imageUrl, description, numLikes, id } =
-      post.postInfo;
-
+  render() {
     const postElement = document.createElement("div");
     postElement.className = "post-container";
     postElement.innerHTML = `
       <div class="post-header">
         <div class="left">
           <div>
-            <img src="${avatarUrl}" alt="${userName}" />
+            <img src="${this._avatarUrl}" alt="${this._userName}" />
           </div>
-          <span>${userName}</span>
+          <span>${this._userName}</span>
         </div>
         <div class="right">follow ...</div>
       </div>
 
       <div class="post-image">
-        <img title="Post image" src="${imageUrl}" />
+        <img title="Post image" src="${this._imageUrl}" />
       </div>
 
       <div class="post-icons">
-        <div class="btn btn-like" data-post-id="${id}">
+        <div class="btn btn-like" data-post-id="${this._id}">
           <i class="fa fa-heart-o"></i>
         </div>
         <div class="btn">
@@ -98,26 +77,48 @@ if (postsContainer) {
         </div>
       </div>
 
-      <div class="post-likes">${numLikes} curtida${
-      numLikes !== 1 ? "s" : ""
+      <div class="post-likes">${this._numLikes} curtida${
+      this._numLikes !== 1 ? "s" : ""
     }</div>
-      <div class="post-description">${description}</div>
+      <div class="post-description">${this._description}</div>
     `;
+    const postsContainer = document.getElementById("posts-container");
 
-    postsContainer.appendChild(postElement);
+    if (postsContainer) {
+      postsContainer.appendChild(postElement);
+      posts.forEach((post) => {
+        const { userName, avatarUrl, imageUrl, description, numLikes, id } =
+          post.postInfo;
 
-    const likeButton = postElement.querySelector(".btn-like") as HTMLElement;
-    likeButton.addEventListener("click", () => {
-      post.like();
-      const icon = likeButton.querySelector("i") as HTMLElement;
-      const likesCount = postElement.querySelector(
-        ".post-likes"
-      ) as HTMLElement;
-      likesCount.textContent = `${post.postInfo.numLikes} curtida${
-        post.postInfo.numLikes !== 1 ? "s" : ""
-      }`;
-      icon.classList.toggle("fa-heart");
-      icon.classList.toggle("fa-heart-o");
-    });
-  });
+        const likeButton = postElement.querySelector(
+          ".btn-like"
+        ) as HTMLElement;
+        likeButton.addEventListener("click", () => {
+          post.like();
+          const icon = likeButton.querySelector("i") as HTMLElement;
+          const likesCount = postElement.querySelector(
+            ".post-likes"
+          ) as HTMLElement;
+          likesCount.textContent = `${post.postInfo.numLikes} curtida${
+            post.postInfo.numLikes !== 1 ? "s" : ""
+          }`;
+          icon.classList.toggle("fa-heart");
+          icon.classList.toggle("fa-heart-o");
+        });
+      });
+    }
+  }
+}
+
+const posts: Post[] = [];
+
+for (let index = 0; index < 15; index++) {
+  const post = new Post(
+    faker.person.firstName(),
+    faker.image.avatarGitHub(),
+    faker.image.urlPicsumPhotos(),
+    faker.lorem.paragraph()
+  );
+  // posts.push(post);
+  post.render();
 }
