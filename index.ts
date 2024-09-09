@@ -1,5 +1,5 @@
 import { v4 as randomUUID } from "uuid";
-import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker/locale/pt_BR";
 
 class Post {
   private _id: string;
@@ -119,6 +119,6 @@ for (let index = 0; index < 15; index++) {
     faker.image.urlPicsumPhotos(),
     faker.lorem.paragraph()
   );
-  // posts.push(post);
+  posts.push(post);
   post.render();
 }
