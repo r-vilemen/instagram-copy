@@ -101,6 +101,13 @@ class Post {
 
         icon.classList.toggle("fa-heart");
         icon.classList.toggle("fa-heart-o");
+        likeButton.classList.toggle("liked");
+
+        // Adiciona a animação de pulso
+        icon.classList.add("pulse");
+        setTimeout(() => {
+          icon.classList.remove("pulse");
+        }, 300);
       });
     }
   }

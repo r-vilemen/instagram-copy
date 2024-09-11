@@ -73,6 +73,26 @@ main {
   cursor: pointer;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.btn-like.liked i {
+  animation: pulse 0.3s ease-in-out;
+}
+
+.btn-like.liked {
+  color: red;
+}
+
 .liked {
   color: red;
 }
