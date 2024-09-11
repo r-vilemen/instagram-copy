@@ -85,7 +85,7 @@ main {
   }
 }
 
-.btn-like.liked i {
+.btn-like.liked {
   animation: pulse 0.3s ease-in-out;
 }
 
