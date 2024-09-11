@@ -86,25 +86,21 @@ class Post {
 
     if (postsContainer) {
       postsContainer.appendChild(postElement);
-      posts.forEach((post) => {
-        const { userName, avatarUrl, imageUrl, description, numLikes, id } =
-          post.postInfo;
 
-        const likeButton = postElement.querySelector(
-          ".btn-like"
+      const likeButton = postElement.querySelector(".btn-like") as HTMLElement;
+      likeButton.addEventListener("click", () => {
+        this.like();
+
+        const icon = likeButton.querySelector("i") as HTMLElement;
+        const likesCount = postElement.querySelector(
+          ".post-likes"
         ) as HTMLElement;
-        likeButton.addEventListener("click", () => {
-          post.like();
-          const icon = likeButton.querySelector("i") as HTMLElement;
-          const likesCount = postElement.querySelector(
-            ".post-likes"
-          ) as HTMLElement;
-          likesCount.textContent = `${post.postInfo.numLikes} curtida${
-            post.postInfo.numLikes !== 1 ? "s" : ""
-          }`;
-          icon.classList.toggle("fa-heart");
-          icon.classList.toggle("fa-heart-o");
-        });
+        likesCount.textContent = `${this._numLikes} curtida${
+          this._numLikes !== 1 ? "s" : ""
+        }`;
+
+        icon.classList.toggle("fa-heart");
+        icon.classList.toggle("fa-heart-o");
       });
     }
   }
