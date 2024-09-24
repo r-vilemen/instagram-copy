@@ -1,5 +1,5 @@
 import { v4 as randomUUID } from "uuid";
-import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker/locale/pt_BR";
 
 class Post {
   private _id: string;
@@ -86,25 +86,28 @@ class Post {
 
     if (postsContainer) {
       postsContainer.appendChild(postElement);
-      posts.forEach((post) => {
-        const { userName, avatarUrl, imageUrl, description, numLikes, id } =
-          post.postInfo;
 
-        const likeButton = postElement.querySelector(
-          ".btn-like"
+      const likeButton = postElement.querySelector(".btn-like") as HTMLElement;
+      likeButton.addEventListener("click", () => {
+        this.like();
+
+        const icon = likeButton.querySelector("i") as HTMLElement;
+        const likesCount = postElement.querySelector(
+          ".post-likes"
         ) as HTMLElement;
-        likeButton.addEventListener("click", () => {
-          post.like();
-          const icon = likeButton.querySelector("i") as HTMLElement;
-          const likesCount = postElement.querySelector(
-            ".post-likes"
-          ) as HTMLElement;
-          likesCount.textContent = `${post.postInfo.numLikes} curtida${
-            post.postInfo.numLikes !== 1 ? "s" : ""
-          }`;
-          icon.classList.toggle("fa-heart");
-          icon.classList.toggle("fa-heart-o");
-        });
+        likesCount.textContent = `${this._numLikes} curtida${
+          this._numLikes !== 1 ? "s" : ""
+        }`;
+
+        icon.classList.toggle("fa-heart");
+        icon.classList.toggle("fa-heart-o");
+        likeButton.classList.toggle("liked");
+
+        // Adiciona a animação de pulso
+        icon.classList.add("pulse");
+        setTimeout(() => {
+          icon.classList.remove("pulse");
+        }, 300);
       });
     }
   }
@@ -119,6 +122,6 @@ for (let index = 0; index < 15; index++) {
     faker.image.urlPicsumPhotos(),
     faker.lorem.paragraph()
   );
-  // posts.push(post);
+  posts.push(post);
   post.render();
 }
